@@ -1,4 +1,4 @@
-import { generateCandidates } from "colliDistribution";
+import { generateCandidates } from "generateCandidates";
 
 test("generateCandidates", () => {
   // @ts-ignore
