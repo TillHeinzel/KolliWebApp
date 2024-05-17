@@ -1,0 +1,51 @@
+{
+  "root": true,
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:import/typescript",
+    "plugin:storybook/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["testing-library", "import", "@typescript-eslint"],
+  "overrides": [
+    // Only uses Testing Library lint rules in test files
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
+    },
+    {
+      "files": ["**/*.test.ts"],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
+  "settings": {
+    "import/resolver": { "typescript": {} },
+    "import/extensions": [".tsx"]
+  },
+  "rules": {
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": "**/*",
+            "from": "**/app/*",
+            "message": "cannot import from app-dir"
+          },
+          {
+            "target": "**/*",
+            "from": "**/pages/api/*",
+            "message": "cannot import from api-dir"
+          }
+        ]
+      }
+    ],
+    "no-unused-vars": ["off"]
+  }
+}
