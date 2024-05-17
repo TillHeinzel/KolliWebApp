@@ -1,3 +1,4 @@
+import { CandidatesDisplay } from "CandidatesDisplay";
 import React from "react";
 
 export function Page() {
@@ -35,11 +36,22 @@ export function Page() {
         <input
           type="number"
           value={productsAvailable.length}
-          onChange={(e) =>
-            setProductsAvailable(
-              Array.from({ length: parseInt(e.target.value) }, () => ["", 0]),
-            )
-          }
+          onChange={(e) => {
+            const newLength = parseInt(e.target.value);
+            if (newLength > productsAvailable.length) {
+              // If the new length is greater than the current length, add new elements
+              setProductsAvailable((prev) => [
+                ...prev,
+                ...(Array.from({ length: newLength - prev.length }, () => [
+                  "",
+                  0,
+                ]) as [string, number][]),
+              ]);
+            } else if (newLength < productsAvailable.length) {
+              // If the new length is less than the current length, remove elements from the end
+              setProductsAvailable((prev) => prev.slice(0, newLength));
+            }
+          }}
           className="rounded-md border border-gray-300 p-2"
         />
       </label>
@@ -55,14 +67,12 @@ export function Page() {
           />
         ))}
       </div>
-      <button
-        onClick={() => console.log("submit")}
-        className="mt-4 rounded-md bg-blue-500 p-2 text-white"
-      >
-        Submit
-      </button>
+
       <div className="mt-4 rounded-md bg-white p-4 shadow-md">
-        {JSON.stringify(productsAvailable)}
+        <CandidatesDisplay
+          productsAvailable={productsAvailable}
+          kolliRange={kolliRange}
+        />
       </div>
     </div>
   );

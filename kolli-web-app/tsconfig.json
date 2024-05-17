@@ -26,5 +26,10 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],
-  "files": ["global.d.ts"]
+  "files": [
+    "global.d.ts",
+    "src/helpers.ts",
+    "src/CandidatesDisplay.tsx",
+    "./src/CandidateDisplay.tsx"
+  ]
 }

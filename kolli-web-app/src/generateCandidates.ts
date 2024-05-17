@@ -1,4 +1,5 @@
 import { cartesianProduct } from "cartesian-product-multiple-arrays";
+import { sum } from "helpers";
 
 export function generateCandidates<T extends [number, ...number[]]>(
   colli: number,
@@ -23,8 +24,4 @@ export function generateCandidates<T extends [number, ...number[]]>(
   return cartesianProduct(...bounds).filter(
     (candidate) => sum(candidate) === colli,
   ) as T[];
-}
-
-function sum(array: number[]) {
-  return array.reduce((a, b) => a + b, 0);
 }

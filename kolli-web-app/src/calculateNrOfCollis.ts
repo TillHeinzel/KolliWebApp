@@ -1,3 +1,5 @@
+import { zip } from "helpers";
+
 export function calculateNrOfCollis<T extends [number, ...number[]]>(
   amountsOfProducts: T,
   colliDistribution: T,
@@ -10,8 +12,4 @@ export function calculateNrOfCollis<T extends [number, ...number[]]>(
       Math.floor(amount / perColli),
     ),
   );
-}
-
-function zip(a: number[], b: number[]): [number, number][] {
-  return a.map((_, i) => [a[i], b[i]]);
 }
