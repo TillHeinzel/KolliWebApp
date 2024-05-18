@@ -5,6 +5,7 @@ export function calculateColliDistributions(
   amountsOfProducts: [number, ...number[]],
   colliLower: number,
   colliUpper: number,
+  nrOfCandidates: number,
 ) {
   const range = Array.from(
     { length: colliUpper - colliLower + 1 },
@@ -15,5 +16,5 @@ export function calculateColliDistributions(
     generateCandidates(colli, amountsOfProducts),
   );
 
-  return findBestCandidates(4, amountsOfProducts, candidates);
+  return findBestCandidates(nrOfCandidates, amountsOfProducts, candidates);
 }

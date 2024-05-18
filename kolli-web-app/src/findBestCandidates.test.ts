@@ -69,4 +69,12 @@ test("findBestCandidates", () => {
       unsoldProducts: 1,
     },
   ]);
+
+  expect(findBestCandidates(1, [0, 10, 10], [[0, 2, 2]])).toEqual([
+    {
+      colliDistribution: [0, 2, 2],
+      nrOfCollis: 5,
+      unsoldProducts: 0,
+    },
+  ]);
 });

@@ -34,4 +34,13 @@ test("generateCandidates", () => {
     [1, 3],
     [2, 2],
   ]);
+
+  expect(generateCandidates(4, [1, 5])).toIncludeSameMembers([
+    [1, 3],
+    [0, 4],
+  ]);
+
+  expect(generateCandidates(1, [0])).toIncludeSameMembers([]);
+  expect(generateCandidates(2, [0, 1])).toIncludeSameMembers([[0, 2]]);
+  expect(generateCandidates(4, [0, 1, 1])).toIncludeSameMembers([[0, 2, 2]]);
 });

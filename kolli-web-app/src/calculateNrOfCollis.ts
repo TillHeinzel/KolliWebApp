@@ -9,7 +9,7 @@ export function calculateNrOfCollis<T extends [number, ...number[]]>(
 
   return Math.min(
     ...zip(amountsOfProducts, colliDistribution).map(([amount, perColli]) =>
-      Math.floor(amount / perColli),
+      perColli === 0 ? Number.MAX_SAFE_INTEGER : Math.floor(amount / perColli),
     ),
   );
 }

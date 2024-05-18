@@ -2,37 +2,31 @@ import { CandidatesDisplay } from "CandidatesDisplay";
 import React from "react";
 
 export function Page() {
-  const [kolliRange, setKolliRange] = React.useState<[number, number]>([0, 0]);
+  const [colliUpper, setColliUpper] = React.useState(0);
+  const [colliLower, setColliLower] = React.useState(0);
   const [productsAvailable, setProductsAvailable] = React.useState<
     [string, number][]
   >([]);
+  const [nrOfResults, setNrOfResults] = React.useState(1);
 
   return (
     <div className="flex flex-col rounded-lg bg-blue-100 p-6 shadow-md">
       <label className="mb-4">
-        Kolli von bis:
+        Colli range:
         <div className="flex space-x-2">
-          <input
-            type="number"
-            value={kolliRange[0]}
-            onChange={(e) =>
-              setKolliRange([parseInt(e.target.value), kolliRange[1]])
-            }
-            className="rounded-md border border-gray-300 p-2"
+          <NonNegativeIntegerInput
+            value={colliLower}
+            setValue={setColliLower}
           />
-          <input
-            type="number"
-            value={kolliRange[1]}
-            onChange={(e) =>
-              setKolliRange([kolliRange[0], parseInt(e.target.value)])
-            }
-            className="rounded-md border border-gray-300 p-2"
+          <NonNegativeIntegerInput
+            value={colliUpper}
+            setValue={setColliUpper}
           />
         </div>
       </label>
 
       <label className="mb-4">
-        Anzahl Produkte:
+        Nr of products:
         <input
           type="number"
           value={productsAvailable.length}
@@ -67,11 +61,21 @@ export function Page() {
           />
         ))}
       </div>
+      <label className="mb-4">
+        Nr of results:
+        <div className="flex space-x-2">
+          <NonNegativeIntegerInput
+            value={nrOfResults}
+            setValue={setNrOfResults}
+          />
+        </div>
+      </label>
 
       <div className="mt-4 rounded-md bg-white p-4 shadow-md">
         <CandidatesDisplay
           productsAvailable={productsAvailable}
-          kolliRange={kolliRange}
+          kolliRange={[colliLower, colliUpper]}
+          nrOfResults={nrOfResults}
         />
       </div>
     </div>
@@ -95,6 +99,15 @@ function ProductInput({
 }) {
   return (
     <div className="flex flex-row items-center gap-2 rounded-md bg-white p-2 shadow-sm">
+      <NonNegativeIntegerInput
+        value={num}
+        setValue={(value) => {
+          const updatedProducts = [...productsAvailable];
+          updatedProducts[index][1] = value;
+          setProductsAvailable(updatedProducts);
+        }}
+      />
+      x
       <input
         type="text"
         value={str}
@@ -105,16 +118,28 @@ function ProductInput({
         }}
         className="flex-grow rounded-md border border-gray-300 p-2"
       />
-      <input
-        type="number"
-        value={num}
-        onChange={(e) => {
-          const updatedProducts = [...productsAvailable];
-          updatedProducts[index][1] = parseInt(e.target.value);
-          setProductsAvailable(updatedProducts);
-        }}
-        className="w-20 rounded-md border border-gray-300 p-2"
-      />
     </div>
+  );
+}
+
+function NonNegativeIntegerInput({
+  value,
+  setValue,
+}: {
+  value: number;
+  setValue: (value: number) => void;
+}) {
+  return (
+    <input
+      type="number"
+      value={value}
+      onChange={(e) => {
+        const value = parseInt(e.target.value);
+        if (!Number.isNaN(value) && Number.isInteger(value) && value >= 0) {
+          setValue(value);
+        }
+      }}
+      className="w-20 rounded-md border border-gray-300 p-2"
+    />
   );
 }

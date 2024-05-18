@@ -6,13 +6,19 @@ import React from "react";
 export function CandidatesDisplay({
   productsAvailable,
   kolliRange,
+  nrOfResults,
 }: {
   productsAvailable: [string, number][];
   kolliRange: [number, number];
+  nrOfResults: number;
 }) {
+  if (!productsAvailable.every(([_, amount]) => amount >= 0)) {
+    return <div>Missing Products</div>;
+  }
+
   try {
     return (
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {calculateColliDistributions(
           productsAvailable.map(([_, amount]) => amount) as [
             number,
@@ -20,6 +26,7 @@ export function CandidatesDisplay({
           ],
           kolliRange[0],
           kolliRange[1],
+          nrOfResults,
         ).map(({ nrOfCollis, colliDistribution }, index) => {
           const productsLager = productsAvailable.map(([name, total]) => ({
             name,
